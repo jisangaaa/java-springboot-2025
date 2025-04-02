@@ -23,10 +23,9 @@ public class Spring03Application {
 		Car mycar = new Car();
 		mycar.name = "아이오닉";
 		mycar.year = 2018;
-
+		// 메서드 오버로딩 사용
 		mycar.printCarName();
 		mycar.printCarName("흰색");
-
 		mycar.printCarName("테슬라", "벤츠", "비엠", "페라리");   //가변인자 메서드 호출
 
 		Car.printYear(); // 클래스 인스턴스 생성없이 바로 사용가능
