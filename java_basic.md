@@ -316,6 +316,288 @@
     }
     ```
 
+- spring05
+
+#### 접근제어자
+- 클래스, 변수, 메서드 등에 외부에서 어떤방식을 접근할건지를 정의하는 키워드
+- 객체지향의 특징 중 캡슐화를 위해서 사용
+- 접근제어자 분류
+    - public : 접근 제한이 없음. 누구나 접근 가능 
+    - private : 같은 클래스 내에서만 접근가능
+    - protected : 같은 패키지 내 또는 다른 패키지의 자식 클래스에서만 접근 가능
+    - default :(키워드 생략가능)같은 패키지 내에서만 접근 가능
+- 사용빈도 : public > default > private > protected
+
+#### Getter/Setter
+- 캡슐화를 제대로 하기위한 코딩방법
+
+    ```java
+    jisnag.age = -27;   //이런 현상을 막아야함!
+    ```
+
+    - private 접근제어자로 멤버변수 선언
+    - Getter/Setter 메서드의 접근제어를 public, default, pritected 등으로 설정
+    - Getter : 값을 리턴. 포맷팅을 해서 리턴 가능, get 접두어로 시작하는 메서드
+        - get + 멤버변수명로 메서드명 생성
+    - Setter : 중요! 잘못된 값이 들어가지 않도록 막아주는 메서드
+        - set + 멤버변수명(입력파라미터) 형태로 생성
+        - 내부로직으로 입력값 필터링
+
+#### Object 클래스
+- 모든 클래스의 조상 클래스. extends 를 사용하지 않아도 항상 상속됨
+    - java.lang.Object
+    - Object 클래스가 가지고 있는 멤버변수와 메서드는 다 사용가능
+
+#### 추상 클래스
+- 구체적인 내용이 포함되지 않은 클래스
+- 반드시 자식클래스에서 오버라이딩으로 구현
+- 추후 다시 학습
+
+#### 인터페이스
+- 상수와 추상메서드로만 구성된 클래스의 한 형태
+- 아무런 기능이 없고 단지 어떻게 구현을 해야 한다는 규칙만 선언되어 있음
+- 중대형 프로젝트 시 일관되고 정형화된 개발을 위한 표준화를 위해 사용
+
+    ```java
+    [접근제어자] interface 인터페이스명 {
+        // 추상메서드
+        [접근제어자] 리턴값 메서드명();
+    }
+    ```
+
+- 인터페이스는 상속이라 부르지 않고 구현이라고 부름
+
+    ```java
+    [접근제어자] class 클래스명 implements 인터페이스명 {
+        // 추상메서드 구현
+    }
+    ```
+
+    - implements로 가져오면 인터페이스 내의 추상 메서드는 반드시 구현
+
+- 스프링의 의존성 주입(Dependency Injection)의 핵심
+
+- [Java문법실습](./day03/spring01/src/main/java/com/hugo83/spring01/Spring01Application.java)
+
+#### 예외처리
+- 프로그램의 비정상적 종료를 막기위한 보호막
+- 소스코드 상의 오류 : 에러/컴파일 에러. 수정이 용이
+- 실행중 발생하는 오류 : 예외/런타임 에러. 수정이 어려움. 언제 발생할지 모름
+
+    ```java
+    try {
+        예외가 발생할 수 있는 코드블럭;
+    } catch (예외클래스 e) {
+        예외발생시 처리 코드블럭;
+    } [finally] {
+        예외발생 유무와 상관없이 항상 처리할 코드블럭;
+    }
+    ```
+
+- 예외클래스 : ArithmeticException, ArrayIndexOutOfBoundsException, NullPointerException
+- 모든 예외클래스는 Excption 클래스를 상속받아서 생성
+- 단순히 Exception 클래스로 예외처리 해도 무방
+
+##### 예외던지기
+- 예외를 직접처리하지 않고 상위 클래스나 메서드에게 처리를 인가
+
+    ```java
+    리턴값 호출메서드(인자...) throws Exception {
+        예외가 발생할 코드블럭;
+        throw new Exception();
+    }
+
+    ...
+    try {
+        호출메서드(인자);
+    } catch (Exception e) {
+        예외처리
+    }
+    ```
+
+- [Java문법실습](./day03/spring02/src/main/java/com/hugo83/spring02/Spring02Application.java)
+
+#### 객체지향 특징
+- 추가로 학습할 내용
+- 다형성, 상속, 캡슐화, 추상화
+
+#### 문자열 핸들링
+- [java.lang.String](https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html)
+- String
+    - 컴퓨터 -> 숫자, 사람 -> 문자    
+    
+- [Java문법실습](./day03/spring04/src/main/java/com/hugo83/spring04/Spring04Application.java)
+
+#### 시간타입 핸들링
+- [java.time](https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/time/package-summary.html)
+- time
+    - 날짜와 시간을 처리할 때 사용
+
+- [Java문법실습](./day04/spring01/src/main/java/com/hugo83/spring01/Spring01Application.java)
+
+
+#### 제네릭
+- 파이썬과 다르게 Java는 단일형만 배열이나 컬렉션에서 사용할 수 있음
+- Object 타입으로 지정하면 무슨 형이든 다 할당 가능
+- `다양한 타입의 객체들을 다루는 메서드나 컬렉션 클래스를 컴파일 과정에서 안전하게 타입체크를 해주는 기능`
+- 장점
+    - 객체 생성시 개발자가 원하는 타입을 지정가능
+    - 타입 안정성 제공
+    - 의도하지 않은 타입의 객체가 저장되는 것을 차단, 오류방지
+    - 형변환의 번거로움이 없음
+
+
+```java
+class 클래스명<T> {
+    T 변수;
+    // getter/setter
+}
+
+public static void main(String[] args) {
+    클래스명<String> 변수명 = new 클래스명<>();
+}
+```
+
+- T는 가변타입. String, int, double 다 지정가능
+- T, P, K, TP 등 가변타입의 명칭은 편하게 지정
+
+- [Java문법실습](./day04/spring02/src/main/java/com/hugo83/spring02/Spring02Application.java)
+
+#### 원시타입의 클래스
+- int, double, float, byte 등 소문자 타입은 C와 같은 예전언어를 배운사람의 편의성을 위해서 추가한 기능
+- Integer, Double, Float, Byte 등 대문자로 시작하는 타입이 진짜 Java 클래스 타입
+- 제네릭을 쓸때는 클래스타입만 허용
+
+
+#### 자료구조
+- 다수의 데이터를 저장, 관리하기 위한 목적으로 나온것 - 자료구조
+- 배열 : 다수의 데이터를 저장, 관리하기 위해 최초로 개발
+- 배열의 단점을 개선 : 리스트, 맵, 튜플, 딕셔너리, 그래프, 트리...
+- 배열보다 데이터 사이즈가 커지지만 속도는 개선
+- 이런 자료구조를 `Java 컬렉션 프레임워크`라고 지칭
+
+
+#### Java 컬렉션 프레임워크
+
+<img src="./image/sb0002.png" width="750">
+
+- List, Queue : 순서가 있는 데이터 집합. 데이터 중복 허용
+- Set : 순서가 없는 데이터 집합. 데이터 중복 허용X
+- Map : 키와 값의 쌍의 데이터 집합. 순서X,키중복X,값중복O
+
+##### Collection 인터페이스
+- List, Queue, Set 인터페이스의 상위 인터페이스
+- 리스트 인터페이스
+    - ArrayList, LinkedList, Vector
+
+    ```java
+    ArrayList<String> list = new ArrayList<>(); // 권장안함
+    Collection<String> list = new ArrayList<>(); // 일반적이진 않음
+    List<String> list = new ArrayList<>(); // 권장!
+    ```
+
+- 셋 인터페이스
+    - HashSet
+
+- 맵 인터페이스
+    - HashMap
+
+- [Java문법실습](./day04/spring03/src/main/java/com/hugo83/spring03/Spring03Application.java)
+
+#### 람다식
+- 함수형 프로그래밍 언어의 특징을 객체지향 언어에 녹여넣은 것
+- 익명 함수로 부르기도 함
+- 코드의 간결성 : 코딩 구문이 확 줄어듬
+
+    ```java
+    // 기존방식
+    [접근제어자] 리턴타입 메서드명(매개변수, ...) {
+        코드 블럭;
+    }
+    // 예시
+    public String helloJava() {
+        return "Hello, Java!";
+    }
+
+    // 람다식
+    (매개변수, ...) -> { 코드블럭; }
+    // 예시
+    () -> "Hello, Java!";  // 한번 실행되고 끝남.
+    ```
+
+#### 함수형 인터페이스
+- 객체지향 언어인 Java에서 함수형 처리를 위해서 함수형 인터페이스가 필요
+- 인터페이스 내에 하나의 추상메서드만 갖도록 제한해줌
+- @FunctionalInterface 어노테이션을 사용 권장
+
+#### 스트림 API
+- 함수형 인터페이스로 데이터를 추상화하고 처리하는 자주 사용되는 함수를 정의해 놓은 것
+- 특징
+    - 원본 데이터를 변경안함
+    - 일회성
+    - 내부 반복으로 작업처리
+
+- 스트림API가 쉽지는 않지만, 코딩량을 현저하게 줄일 수 있음.
+
+- [Java문법실습](./day04/spring04/src/main/java/com/hugo83/spring04/Spring04Application.java)
+
+
+#### StringBuilder
+- String 객체는 불변의 성질. 한번 생성되면 변경불가
+- 연산자로 수정하면 기존 메모리는 두고, 다시 String객체를 생성
+- 이를 해결하고자 하기위해 만든 것 - StringBuilder
+- 리스트와 유사. 문자열 처리때문에 메모리 문제, 성능문제가 발생하면 StringBuilder, StringBuffer 사용 고려
+
+    ```java
+    StringBuilder sb = new StrinBuilder();
+    sb.append("abc");
+    sb.append("xyz");
+    // insert(), delete()
+    ```
+
+#### GC(Garbage Collection)
+- C등 절처적 언어에서는 객체를 생성해서 메모리를 사용하면, 개발자가 직접 해제해줘야 함
+- 메모리 누수가 발생
+- 객체지향 언어에서는 GC 만들어서 메모리를 언어가 직접 핸들링 처리
+
+#### File 입출력
+- 파일을 읽고 쓰는작업
+- `FileInputStream`, `FileOutputStream`, `FileWriter`, `PrintWriter` 등의 클래스 사용
+- 입출력 예외가 발생할 수 있기때문에 클래스나 메서드에 `throws IOException`을 추가해야 함
+- 파일읽기에 `FileInputStream`, `BufferedReader` 클래스 사용
+
+- [JAVA문법실습](./day05/spring02/src/main/java/com/hugo83/spring02/Spring02Application.java)
+
+
+#### 어노테이션
+- 한글로 주석이지만, #, //,  /**/ 소스에 영향을 미치지 않는 주석과 다름
+- 자바 소스에 추가해서 여러가지 기능을 수행하는 메타데이터 일종
+- @로 시작, JDK 1.5 이상부터 사용가능
+- 클래스 파일에 같이 포함되어 JVM 작동시 실행됨
+- 클래스, 메서드 바로 위에 작성. 코드와 설정을 관리할 수 있게 도와주는 역할
+
+##### 1. @Override
+- 오버라이드를 올바르게 했는지 컴파일러 체크
+- 상속, 인터페이스 구현시 사용
+
+##### 2. @Deprecated
+- 앞으로 다음버전에서 삭제될 수 있음. 사용하지 말것을 권유하는 체크
+
+<img src="./image/sb0011.png" width="700">
+
+- 되도록이면 이 함수는 사용할지 말것
+
+##### 3. @FunctionalInterface
+- 함수형 인터페이스에 붙여서, 컴파일러가 올바르게 작성되었는지 체크
+
+##### 4. @SuppressWarnings
+- 컴파일러의 경고메시지가 표시되지 않음
+
+
+
+
+
+
     
 
 
